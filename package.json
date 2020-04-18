@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/SmallReminders/Principles/issues"
   },
-  "homepage": "https://github.com/SmallReminders/Principles#readme"
+  "homepage": "https://github.com/SmallReminders/Principles#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "mongoose": "^5.9.9"
+  },
+  "devDependencies": {}
 }

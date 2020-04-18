@@ -1,15 +1,27 @@
 'use strict';
-// var MongoClient = require('mongodb').MongoClient;
-// let atlasConnectionUri;
-// let cachedDb = null; // will be cached for the duration of underlying container for this function
-// const mongoose = require('mongoose');
-// mongoose.Promise = global.Promise;
-// const Principle = mongoose.model('Principle');
+
+/*
+ * Dependencies
+ */
+// Mongo Setup
+require('dotenv').config();
+const mongoDB = require('./utils/mongoDB');
+mongoDB.connect();
+require('./schema/Principle'); // mongoose schema
+const mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
+const Principle = mongoose.model('Principle');
 
 // function processEvent (event, context, callback) {
 //   console.log('Calling MongoDB Atlas from AWS Lambda with event: ' + JSON.stringify(event));
 // }
 
+// Cache DB connection for the duration of underlying container for this function
+// let cachedDb = null;
+
+/*
+ * Entry Point
+ */
 exports.handler = async (event, context, callback) => {
   // var uri = process.env.MONGODB_ATLAS_CLUSTER_URI;
   // if (atlasConnectionUri != null) {
@@ -50,7 +62,7 @@ exports.handler = async (event, context, callback) => {
   }
 
   let greeting = `Good ${time}, ${name} of ${city}.`;
-  if (day) greeting += ` Happy happy ${day}!`;
+  if (day) greeting += ` Happy happy ${day}!, mongo user is ${process.env.MONGO_USER}`;
 
   const responseBody = {
     message: greeting,
