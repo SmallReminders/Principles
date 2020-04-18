@@ -3,7 +3,6 @@
 /*
  * Dependencies
  */
-
 // Mongo Setup
 require('dotenv').config();
 const mongoDB = require('./utils/mongoDB');
@@ -17,28 +16,31 @@ const defaultPrinciples = require('./const/sample');
 /*
  * Entry Point
  */
-
 exports.handler = async (event, context, callback) => {
-  const responseCode = 200;
-  let payload;
-  console.log('request: ' + JSON.stringify(event));
+  let responseCode = 200;
+  let responseBody;
+  try {
+    let payload;
+    console.log('request: ' + JSON.stringify(event));
 
-  if (!('uid' in event.pathParameters)) {
-    payload = { principles: defaultPrinciples };
-  } else {
-    const uid = event.pathParameters.uid;
+    if (!('uid' in event.pathParameters)) {
+      payload = { principles: defaultPrinciples };
+    } else {
+      const uid = event.pathParameters.uid;
 
-    if (event.httpMethod === 'GET') {
-      const principles = await getPrinciplesByUid(uid);
-      payload = { principles };
+      if (event.httpMethod === 'GET') {
+        const principles = await getPrinciplesByUid(uid);
+        payload = { principles };
+      }
     }
+    responseBody = {
+      event,
+      payload
+    };
+  } catch (err) {
+    responseCode = 404;
+    responseBody = { err };
   }
-
-  const responseBody = {
-    event,
-    payload
-  };
-
   // The output from a Lambda proxy integration must be
   // in the following JSON object. The 'headers' property
   // is for custom response headers in addition to standard
