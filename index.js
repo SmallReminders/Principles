@@ -1,62 +1,46 @@
 'use strict';
-// var MongoClient = require('mongodb').MongoClient;
-// let atlasConnectionUri;
-// let cachedDb = null; // will be cached for the duration of underlying container for this function
-// const mongoose = require('mongoose');
-// mongoose.Promise = global.Promise;
-// const Principle = mongoose.model('Principle');
 
-// function processEvent (event, context, callback) {
-//   console.log('Calling MongoDB Atlas from AWS Lambda with event: ' + JSON.stringify(event));
-// }
+/*
+ * Dependencies
+ */
+// Mongo Setup
+require('dotenv').config();
+const mongoDB = require('./utils/mongoDB');
+mongoDB.connect();
+require('./schema/Principle'); // mongoose schema
+const mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
+const Principle = mongoose.model('Principle');
+const defaultPrinciples = require('./const/sample');
 
+/*
+ * Entry Point
+ */
 exports.handler = async (event, context, callback) => {
-  // var uri = process.env.MONGODB_ATLAS_CLUSTER_URI;
-  // if (atlasConnectionUri != null) {
-  //   processEvent(event, context, callback);
-  // } else {
-  //   atlasConnectionUri = uri;
-  //   console.log('the Atlas connection string is ' + atlasConnectionUri);
-  //   processEvent(event, context, callback);
-  // }
+  let responseCode = 200;
+  let responseBody;
+  try {
+    let payload;
+    console.log('request: ' + JSON.stringify(event));
 
-  let name = 'you';
-  let city = 'World';
-  let time = 'day';
-  let day = '';
-  const responseCode = 200;
-  console.log('request: ' + JSON.stringify(event));
+    if (!('uid' in event.pathParameters)) {
+      payload = { principles: defaultPrinciples };
+    } else {
+      const uid = event.pathParameters.uid;
 
-  if (event.queryStringParameters && event.queryStringParameters.name) {
-    console.log('Received name: ' + event.queryStringParameters.name);
-    name = event.queryStringParameters.name;
-  }
-
-  if (event.queryStringParameters && event.queryStringParameters.city) {
-    console.log('Received city: ' + event.queryStringParameters.city);
-    city = event.queryStringParameters.city;
-  }
-
-  if (event.headers && event.headers.day) {
-    console.log('Received day: ' + event.headers.day);
-    day = event.headers.day;
-  }
-
-  if (event.body) {
-    const body = JSON.parse(event.body);
-    if (body.time) {
-      time = body.time;
+      if (event.httpMethod === 'GET') {
+        const principles = await getPrinciplesByUid(uid);
+        payload = { principles };
+      }
     }
+    responseBody = {
+      event,
+      payload
+    };
+  } catch (err) {
+    responseCode = 404;
+    responseBody = { err };
   }
-
-  let greeting = `Good ${time}, ${name} of ${city}.`;
-  if (day) greeting += ` Happy happy ${day}!`;
-
-  const responseBody = {
-    message: greeting,
-    input: event
-  };
-
   // The output from a Lambda proxy integration must be
   // in the following JSON object. The 'headers' property
   // is for custom response headers in addition to standard
@@ -72,4 +56,11 @@ exports.handler = async (event, context, callback) => {
   };
   console.log('response: ' + JSON.stringify(response));
   return response;
+};
+
+const getPrinciplesByUid = (uid) => {
+  const query = {
+    owner: uid
+  };
+  return Principle.find(query);
 };
