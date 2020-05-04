@@ -125,7 +125,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# AWS Build
+# AWS SAM Deployment Build
 .aws-sam/
 
 # End of https://www.gitignore.io/api/osx,node,linux,windows
