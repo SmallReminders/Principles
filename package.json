@@ -1,0 +1,24 @@
+{
+  "name": "principles",
+  "version": "1.0.0",
+  "description": "Principles Microservice",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SmallReminders/Principles.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SmallReminders/Principles/issues"
+  },
+  "homepage": "https://github.com/SmallReminders/Principles#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "mongoose": "^5.9.9"
+  },
+  "devDependencies": {}
+}

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 # Created by https://www.gitignore.io/api/osx,node,linux,windows
 
@@ -130,3 +131,8 @@ $RECYCLE.BIN/
 
 # End of https://www.gitignore.io/api/osx,node,linux,windows
 
+=======
+.env
+node_modules/
+event.json
+>>>>>>> 6281c48997de9e70ef37ff3befec2a0b79b2ce8c

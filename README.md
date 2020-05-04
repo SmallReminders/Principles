@@ -1,4 +1,5 @@
 # Principles
+<<<<<<< HEAD
 
 This project contains source code and supporting files for a serverless application that you can deploy with the SAM CLI. It includes the following files and folders.
 
@@ -118,3 +119,15 @@ aws cloudformation delete-stack --stack-name Principles
 See the [AWS SAM developer guide](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html) for an introduction to SAM specification, the SAM CLI, and serverless application concepts.
 
 Next, you can use AWS Serverless Application Repository to deploy ready to use Apps that go beyond hello world samples and learn how authors developed their applications: [AWS Serverless Application Repository main page](https://aws.amazon.com/serverless/serverlessrepo/)
+=======
+Principles Microservice
+
+# Deploy to Lambda
+```
+# in root directory
+zip function.zip *
+
+# upload to lambda - run from root directory of function
+scripts/deploy.sh
+```
+>>>>>>> 6281c48997de9e70ef37ff3befec2a0b79b2ce8c
