@@ -20,7 +20,6 @@ let response;
  */
 require('dotenv').config();
 require('./schema/Principle'); // mongoose schema
-const defaultPrinciples = require('./const/sample');
 
 // Mongo setup
 const mongoDB = require('./utils/mongoDB');
@@ -32,16 +31,16 @@ const Principle = mongoose.model('Principle');
 exports.lambdaHandler = async (event, context) => {
   try {
     let payload;
-    if (!event.pathParameters || !('uid' in event.pathParameters)) {
-    // if no uid given, return default principles
-      payload = { principles: defaultPrinciples };
-    }
+    // if (!event.pathParameters || !('uid' in event.pathParameters)) {
+    // // if no uid given, return default principles
+    //   payload = { principles: defaultPrinciples };
+    // }
 
     response = {
       statusCode: 200,
       body: JSON.stringify({
         payload,
-        message: 'hello from first function'
+        message: 'hello from second function'
       })
     };
   } catch (err) {
