@@ -1,6 +1,5 @@
 // const axios = require('axios')
 // const url = 'http://checkip.amazonaws.com/';
-'use strict';
 let response;
 
 /**
@@ -19,10 +18,10 @@ let response;
  * Dependencies
  */
 require('dotenv').config();
-require('./schema/Principle'); // mongoose schema
-
+require('custom/mongoDB/schema/Principle'); // mongoose schema
+console.log('env is', process.ENV);
 // Mongo setup
-const mongoDB = require('./utils/mongoDB');
+const mongoDB = require('custom/mongoDB');
 mongoDB.connect();
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;

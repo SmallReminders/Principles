@@ -4,7 +4,8 @@
  * Dependencies
  */
 require('dotenv').config();
-require('./schema/Principle'); // mongoose schema
+// require('schema/Principle'); // mongoose schema
+require('schema'); // mongoose schema
 const defaultPrinciples = require('./const/sample');
 
 // Mongo setup

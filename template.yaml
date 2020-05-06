@@ -11,6 +11,16 @@ Globals:
     Timeout: 3
 
 Resources:
+  MongoDB:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      LayerName: MongoDB
+      Description: My Lambda Layer with Helper Functions for accessing RDS, Logging, and other utilities.
+      ContentUri: dependencies/
+      CompatibleRuntimes:
+        - nodejs12.x
+      LicenseInfo: MIT
+      RetentionPolicy: Retain  
   Principles:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
@@ -37,16 +47,7 @@ Resources:
           Properties:
             Path: /principles
             Method: post            
-  MongoDB:
-    Type: AWS::Serverless::LayerVersion
-    Properties:
-      LayerName: MongoDB
-      Description: My Lambda Layer with Helper Functions for accessing RDS, Logging, and other utilities.
-      ContentUri: layers/mongoDB/
-      CompatibleRuntimes:
-        - nodejs12.x
-      LicenseInfo: MIT
-      RetentionPolicy: Retain        
+      
             
 #  Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
