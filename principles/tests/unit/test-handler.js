@@ -1,22 +1,42 @@
 'use strict';
+const AWS = require('aws-sdk');
 
-const app = require('../../app.js');
-const chai = require('chai');
-const expect = chai.expect;
-var event, context;
+const client = AWS.Lambda.
+console.log(client);
+// const apiGateway = new AWS.APIGateway();
+// console.log('apiGateway', apiGateway);
 
-describe('Tests index', function () {
-    it('verifies successful response', async () => {
-        const result = await app.lambdaHandler(event, context)
+const test = async () => {
+  const result = await apiGateway.makeRequest({
+    operation: 'GET'
+  });
+  console.log('uhh testing');
+  // console.log(result);
+  return result;
+};
 
-        expect(result).to.be.an('object');
-        expect(result.statusCode).to.equal(200);
-        expect(result.body).to.be.an('string');
+// test();
+// testing 3 things:
+// 1. env is not empty
+// 2. if no uid given, we get back default principles
+// 3. if uid is given, we get back principles with the owner
 
-        let response = JSON.parse(result.body);
+// const app = require('../../app.js');
+// const chai = require('chai');
+// const expect = chai.expect;
+// var event, context;
 
-        expect(response).to.be.an('object');
-        expect(response.message).to.be.equal("hello world");
-        // expect(response.location).to.be.an("string");
-    });
-});
+// describe('Tests index', function () {
+//   it('verifies successful response', async () => {
+//     const result = await app.lambdaHandler(event, context);
+//     expect(result).to.be.an('object');
+//     expect(result.statusCode).to.equal(200);
+//     expect(result.body).to.be.an('string');
+
+//     const response = JSON.parse(result.body);
+
+//     expect(response).to.be.an('object');
+//     expect(response.message).to.be.equal('hello world');
+//     // expect(response.location).to.be.an("string");
+//   });
+// });

@@ -1,25 +1,14 @@
-// const axios = require('axios')
-// const url = 'http://checkip.amazonaws.com/';
-let response;
-
 /**
- *
- * Event doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html#api-gateway-simple-proxy-for-lambda-input-format
- * @param {Object} event - API Gateway Lambda Proxy Input Format
- *
- * Context doc: https://docs.aws.amazon.com/lambda/latest/dg/nodejs-prog-model-context.html
- * @param {Object} context
- *
- * Return doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html
- * @returns {Object} object - API Gateway Lambda Proxy Output Format
+ * FunctionName = addPrinciple
  */
+let response;
 
 /*
  * Dependencies
  */
 require('dotenv').config();
 require('custom/mongoDB/schema/Principle'); // mongoose schema
-console.log('env is', process.ENV);
+
 // Mongo setup
 const mongoDB = require('custom/mongoDB');
 mongoDB.connect();
@@ -30,16 +19,17 @@ const Principle = mongoose.model('Principle');
 exports.lambdaHandler = async (event, context) => {
   try {
     let payload;
+    // must give uid, and body must have content
     // if (!event.pathParameters || !('uid' in event.pathParameters)) {
-    // // if no uid given, return default principles
-    //   payload = { principles: defaultPrinciples };
+    // // if no uid given, return error
+    //   throw error 
     // }
 
     response = {
       statusCode: 200,
       body: JSON.stringify({
         payload,
-        message: 'hello from second function'
+        message: 'hello from POST (addPrinciple)'
       })
     };
   } catch (err) {

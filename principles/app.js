@@ -1,29 +1,17 @@
-// const axios = require('axios')
-// const url = 'http://checkip.amazonaws.com/';
-'use strict';
-let response;
-
 /**
- *
- * Event doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html#api-gateway-simple-proxy-for-lambda-input-format
- * @param {Object} event - API Gateway Lambda Proxy Input Format
- *
- * Context doc: https://docs.aws.amazon.com/lambda/latest/dg/nodejs-prog-model-context.html
- * @param {Object} context
- *
- * Return doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html
- * @returns {Object} object - API Gateway Lambda Proxy Output Format
+ * FunctionName = Principles
  */
+let response;
 
 /*
  * Dependencies
  */
 require('dotenv').config();
-require('./schema/Principle'); // mongoose schema
+require('custom/mongoDB/schema/Principle'); // mongoose schema
 const defaultPrinciples = require('./const/sample');
 
 // Mongo setup
-const mongoDB = require('./utils/mongoDB');
+const mongoDB = require('custom/mongoDB');
 mongoDB.connect();
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
@@ -33,15 +21,23 @@ exports.lambdaHandler = async (event, context) => {
   try {
     let payload;
     if (!event.pathParameters || !('uid' in event.pathParameters)) {
-    // if no uid given, return default principles
+      // if no uid given, return default principles
+      console.log('no uid given, returning default principles');
       payload = { principles: defaultPrinciples };
+    } else {
+      const owner = event.pathParameters.uid;
+      const query = {
+        owner
+      };
+      const principles = await Principle.find(query);
+      payload = { principles, owner };
     }
-
     response = {
       statusCode: 200,
       body: JSON.stringify({
         payload,
-        message: 'hello from first function'
+        message: 'hello from GET (Principle)',
+        event
       })
     };
   } catch (err) {
