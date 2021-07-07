@@ -1,8 +1,8 @@
 {
-  "name": "principles",
+  "name": "addprinciple",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "directories": {
     "test": "tests"
   },
@@ -10,8 +10,5 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "aws-sdk": "^2.671.0"
-  }
+  "license": "ISC"
 }

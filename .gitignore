@@ -132,3 +132,4 @@ $RECYCLE.BIN/
 
 .env
 node_modules/
+env.json

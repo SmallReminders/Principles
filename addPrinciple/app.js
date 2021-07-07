@@ -1,5 +1,5 @@
 /**
- * FunctionName = Principles
+ * FunctionName = addPrinciple
  */
 let response;
 
@@ -8,7 +8,6 @@ let response;
  */
 require('dotenv').config();
 require('custom/mongoDB/schema/Principle'); // mongoose schema
-const defaultPrinciples = require('./const/sample');
 
 // Mongo setup
 const mongoDB = require('custom/mongoDB');
@@ -20,24 +19,17 @@ const Principle = mongoose.model('Principle');
 exports.lambdaHandler = async (event, context) => {
   try {
     let payload;
-    if (!event.pathParameters || !('uid' in event.pathParameters)) {
-      // if no uid given, return default principles
-      console.log('no uid given, returning default principles');
-      payload = { principles: defaultPrinciples };
-    } else {
-      const owner = event.pathParameters.uid;
-      const query = {
-        owner
-      };
-      const principles = await Principle.find(query);
-      payload = { principles, owner };
-    }
+    // must give uid, and body must have content
+    // if (!event.pathParameters || !('uid' in event.pathParameters)) {
+    // // if no uid given, return error
+    //   throw error 
+    // }
+
     response = {
       statusCode: 200,
       body: JSON.stringify({
         payload,
-        message: 'hello from GET (Principle)',
-        event
+        message: 'hello from POST (addPrinciple)'
       })
     };
   } catch (err) {
